@@ -18,6 +18,14 @@ So you have downloaded the repository, what next?
 Well the following instructions assume you have local access to PHP, composer and docker/sail. If you have these
 applications then open up your favorite terminal and navigate to the application base directory.
 
+We can start by generating a .env file
+
+```shell
+cp .env.example .env
+```
+
+Feel free to update the contents of the .env as you wish.
+
 We can now use composer to install our dependencies.
 
 ```shell
@@ -28,6 +36,24 @@ Fire up the sail application.
 
 ```shell
 ./vendor/bin/sail up -d
+```
+
+or
+
+```shell
+make up
+```
+
+We should also generate an application key. Use one of the following commands to generate the key.
+
+```shell
+./vendor/bin/sail artisan key:generate
+```
+
+or
+
+```shell
+make key.generate
 ```
 
 The application should now load in the browser at `http://localhost`.
@@ -41,10 +67,22 @@ Breeze has been added via composer, so we only need to install the assets.
 ./vendor/bin/sail artisan breeze:install
 ```
 
+or
+
+```shell
+make breeze
+```
+
 You should receive a message that the scaffolding was installed successfully. Now install node package using npm.
 
 ```shell
 ./vendor/bin/sail npm install && ./vendor/bin/sail npm run dev
+```
+
+or
+
+```shell
+make npm.build
 ```
 
 Now reload your application in the browser (http://localhost) and you should now see two new links in the upper right corner of the default application page (Log in and Register)
@@ -53,20 +91,38 @@ We can view all the Breeze authentication routes by looking at `routes/auth.php`
 
 ## Assessment Item Two [Migration]
 
-Let's migrate our default project data along with our actor and movie data into database tables. 
-NOTE: The seeders for actor and movies are using large json files to migrate data. They also are generating the 
-necessary relationship based on the data in the json file. To avoid a long migration, you can drop the `--seed` and use 
-the `*.sql` files found in `database/data`and import data directly into the DB to avoid the LONG 
+Let's migrate our default project data along with our actor and movie data into database tables.
+NOTE: The seeders for actor and movies are using large json files to migrate data. They also are generating the
+necessary relationship based on the data in the json file. To avoid a long migration, you can drop the `--seed` and use
+the `*.sql` files found in `database/data`and import data directly into the DB to avoid the LONG
 seeding process.
 
 ```shell
 ./vendor/bin/sail artisan migrate <--seed>
 ```
 
+Alternatively, you can use the following make command to migrate the schema
+
+```shell
+make migrate
+```
+
+Or the following to migrate and seed.
+
+```shell
+make migrate.seed
+```
+
 If you decide to import the database using the `*.sql` included, then run this command to seed the users.
 
 ```shell
 ./vendor/bin/sail artisan db:seed --class=UserSeeder
+```
+
+or
+
+```shell
+make seed.user
 ```
 
 ## Assessment Item Three [CRUD]
@@ -90,7 +146,7 @@ TODO: Add front-end validation notifications
 
 ## Assessment Item Five [Notifications]
 
-Anytime a new actor or movie record is added, the application will send an email notification to the user with details 
+Anytime a new actor or movie record is added, the application will send an email notification to the user with details
 about the record added.
 
 You can view the email by navigating to [http://localhost:8025/](http://localhost:8025/)
