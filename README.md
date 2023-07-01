@@ -63,6 +63,12 @@ seeding process.
 ./vendor/bin/sail artisan migrate <--seed>
 ```
 
+If you decide to import the database using the `*.sql` included, then run this command to seed the users.
+
+```shell
+./vendor/bin/sail artisan db:seed --class=UserSeeder
+```
+
 ## Assessment Item Three [CRUD]
 
 Once the application data has been migrated, login to the application using the following credentials:
